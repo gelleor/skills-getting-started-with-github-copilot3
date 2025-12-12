@@ -80,6 +80,46 @@ activities = {
     }
 }
 
+# Midmark reports database
+midmark_reports = {
+    "SW-001": {
+        "title": "Software Requirements Analysis",
+        "date": "2024-01-15",
+        "author": "John Doe",
+        "status": "Completed"
+    },
+    "SW-002": {
+        "title": "System Design Document",
+        "date": "2024-01-20",
+        "author": "Jane Smith",
+        "status": "In Progress"
+    },
+    "SW-003": {
+        "title": "Test Strategy Report",
+        "date": "2024-02-01",
+        "author": "Bob Johnson",
+        "status": "Completed"
+    },
+    "HW-001": {
+        "title": "Hardware Specifications",
+        "date": "2024-01-10",
+        "author": "Alice Williams",
+        "status": "Completed"
+    },
+    "SW-004": {
+        "title": "Code Review Summary",
+        "date": "2024-02-10",
+        "author": "Charlie Brown",
+        "status": "Draft"
+    },
+    "DOC-001": {
+        "title": "User Manual Draft",
+        "date": "2024-01-25",
+        "author": "Diana Prince",
+        "status": "In Progress"
+    }
+}
+
 
 @app.get("/")
 def root():
@@ -107,3 +147,17 @@ def signup_for_activity(activity_name: str, email: str):
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+
+
+@app.get("/midmark-reports")
+def get_all_midmark_reports():
+    """Get all Midmark reports"""
+    return midmark_reports
+
+
+@app.get("/midmark-reports/sw")
+def get_sw_midmark_reports():
+    """Get all Midmark reports that start with SW-"""
+    sw_reports = {report_id: details for report_id, details in midmark_reports.items() 
+                  if report_id.startswith("SW-")}
+    return sw_reports
