@@ -83,7 +83,7 @@ A comprehensive Docker-based deployment system for VNOJ, featuring detailed Viet
 
 #### Files
 - `readme.md` - Main installation guide (Vietnamese)
-- `Install for develope mode.md` - Development environment setup
+- `Install for develop mode.md` - Development environment setup
 - `sample-config/` - Sample configuration files
 
 ---
