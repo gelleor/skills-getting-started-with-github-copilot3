@@ -1,8 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const midmarkReportsList = document.getElementById("midmark-reports-list");
   const activitiesList = document.getElementById("activities-list");
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
+
+  // Function to fetch Midmark reports starting with SW-
+  async function fetchMidmarkReports() {
+    try {
+      const response = await fetch("/midmark-reports/sw");
+      const reports = await response.json();
+
+      // Clear loading message
+      midmarkReportsList.innerHTML = "";
+
+      // Check if there are any reports
+      if (Object.keys(reports).length === 0) {
+        midmarkReportsList.innerHTML = "<p>No Midmark reports found starting with SW-</p>";
+        return;
+      }
+
+      // Populate reports list
+      Object.entries(reports).forEach(([reportId, details]) => {
+        const reportCard = document.createElement("div");
+        reportCard.className = "activity-card";
+
+        reportCard.innerHTML = `
+          <h4>${reportId}</h4>
+          <p><strong>Title:</strong> ${details.title}</p>
+          <p><strong>Author:</strong> ${details.author}</p>
+          <p><strong>Date:</strong> ${details.date}</p>
+          <p><strong>Status:</strong> ${details.status}</p>
+        `;
+
+        midmarkReportsList.appendChild(reportCard);
+      });
+    } catch (error) {
+      midmarkReportsList.innerHTML = "<p>Failed to load Midmark reports. Please try again later.</p>";
+      console.error("Error fetching Midmark reports:", error);
+    }
+  }
 
   // Function to fetch activities from API
   async function fetchActivities() {
@@ -102,5 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Initialize app
+  fetchMidmarkReports();
   fetchActivities();
 });
